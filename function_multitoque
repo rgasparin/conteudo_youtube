@@ -1,0 +1,15 @@
+let tempoEspera = context.get("tempoEspera") || false;
+let btn_precionado = context.get("btn_precionado") || false;
+btn_precionado = btn_precionado ?  btn_precionado +1 : 1;
+
+context.set("btn_precionado", btn_precionado);
+clearTimeout(tempoEspera);
+tempoEspera = setTimeout(()=>{
+    context.set("tempoEspera", false);
+    node.send({payload:btn_precionado});
+    context.set("btn_precionado", 0);
+            
+},1000);
+context.set("tempoEspera",tempoEspera);
+      
+return null;
