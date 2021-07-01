@@ -1,0 +1,13 @@
+Comandos usados no console do tasmota / Commands used in the tasmota console : 
+//Definindo o tópico para o switch / Setting the topic for the switch 
+SwitchTopic interruptor
+
+//Definindo o tipo de switch nesse caso on/off / Defining the switch type in this case on/off 
+switchmode1 1
+
+//Gravando as informações na memoria do nodemcu / enable MQTT retain flag on switch press
+switchretain on
+
+
+//Enviando informações para o broker MQTT e consequentemente para o home assistant / Sending information to the MQTT broker and hence to the home assistant 
+setoption19 1
