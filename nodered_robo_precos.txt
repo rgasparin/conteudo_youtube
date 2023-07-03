@@ -1,0 +1,229 @@
+[
+    {
+        "id": "c1fa27fd8e633894",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "60d688dc14495612",
+        "type": "inject",
+        "z": "c1fa27fd8e633894",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "21600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "354a15a2a87d61d9",
+                "7d95e1aa2991e2cc",
+                "aef0d2dcc7e87394",
+                "29803e157ed2c651"
+            ]
+        ]
+    },
+    {
+        "id": "fa8acf91d44146bf",
+        "type": "telegram sender",
+        "z": "c1fa27fd8e633894",
+        "name": "",
+        "bot": "0208ded9ca01bf97",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1070,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4873bbeeeb95383b",
+        "type": "function",
+        "z": "c1fa27fd8e633894",
+        "name": "",
+        "func": "\nmsg.obj = {nome : msg.payload.data.products[0].name,\n    comDesconto: msg.payload.data.products[0].prices.minimum.discounted,\n    preco: msg.payload.data.products[0].prices.minimum.finalPrice,\n};\n\nmsg.payload = {\n  chatId : '974769595', \n  type : 'message',\n  content : msg.obj.nome + ': '+ msg.obj.preco\n};\nreturn  msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 60,
+        "wires": [
+            [
+                "f3b36ddb4e2d9a07"
+            ]
+        ]
+    },
+    {
+        "id": "63c4e58483dba54a",
+        "type": "json",
+        "z": "c1fa27fd8e633894",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 60,
+        "wires": [
+            [
+                "4873bbeeeb95383b"
+            ]
+        ]
+    },
+    {
+        "id": "354a15a2a87d61d9",
+        "type": "http request",
+        "z": "c1fa27fd8e633894",
+        "name": "Mario U",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://graph.nintendo.com/?operationName=ProductsBySku&variables=%7B%22locale%22%3A%22en_CA%22%2C%22personalized%22%3Afalse%2C%22skus%22%3A%5B%227100006411%22%5D%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2243251a1c4b24ba477cc4e12a8fd13e03bcc4dfee223ad0bb8c3792f001a6ebe6%22%7D%7D",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 320,
+        "y": 60,
+        "wires": [
+            [
+                "63c4e58483dba54a"
+            ]
+        ]
+    },
+    {
+        "id": "7d95e1aa2991e2cc",
+        "type": "http request",
+        "z": "c1fa27fd8e633894",
+        "name": "Mario 3D",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://graph.nintendo.com/?operationName=ProductsBySku&variables=%7B%22locale%22%3A%22en_CA%22%2C%22personalized%22%3Afalse%2C%22skus%22%3A%5B%227100034439%22%5D%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2243251a1c4b24ba477cc4e12a8fd13e03bcc4dfee223ad0bb8c3792f001a6ebe6%22%7D%7D",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 300,
+        "y": 120,
+        "wires": [
+            [
+                "63c4e58483dba54a"
+            ]
+        ]
+    },
+    {
+        "id": "f3b36ddb4e2d9a07",
+        "type": "switch",
+        "z": "c1fa27fd8e633894",
+        "name": "",
+        "property": "obj.comDesconto",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 60,
+        "wires": [
+            [
+                "fa8acf91d44146bf"
+            ]
+        ]
+    },
+    {
+        "id": "aef0d2dcc7e87394",
+        "type": "http request",
+        "z": "c1fa27fd8e633894",
+        "name": "Lego",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://graph.nintendo.com/?operationName=ProductsBySku&variables=%7B%22locale%22%3A%22en_CA%22%2C%22personalized%22%3Afalse%2C%22skus%22%3A%5B%227100001532%22%5D%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2243251a1c4b24ba477cc4e12a8fd13e03bcc4dfee223ad0bb8c3792f001a6ebe6%22%7D%7D",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "63c4e58483dba54a"
+            ]
+        ]
+    },
+    {
+        "id": "29803e157ed2c651",
+        "type": "http request",
+        "z": "c1fa27fd8e633894",
+        "name": "Zelda",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://graph.nintendo.com/?operationName=ProductsBySku&variables=%7B%22locale%22%3A%22pt_BR%22%2C%22personalized%22%3Afalse%2C%22skus%22%3A%5B%227100063714%22%2C%227100027619%22%5D%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2243251a1c4b24ba477cc4e12a8fd13e03bcc4dfee223ad0bb8c3792f001a6ebe6%22%7D%7D",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 290,
+        "y": 340,
+        "wires": [
+            [
+                "63c4e58483dba54a"
+            ]
+        ]
+    },
+    {
+        "id": "0208ded9ca01bf97",
+        "type": "telegram bot",
+        "botname": "Jarbas",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]
